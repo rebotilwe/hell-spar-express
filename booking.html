@@ -182,42 +182,74 @@
 
 <body>
 
-    <!-- ── NAVBAR ── -->
-    <nav class="navbar fixed-top navbar-expand-lg container-fluid p-4">
-        <div class="container-fluid">
-            <a class="navbar-brand d-flex align-items-center" href="index.html">
-                <svg style="width:36px;height:34px;margin-right:8px;" viewBox="0 0 60 58" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M30 2 L58 20 L52 54 L8 54 L2 20 Z" fill="#FBCE07" stroke="#DD1D21" stroke-width="2"/>
-                    <path d="M30 10 L50 24 L45 48 L15 48 L10 24 Z" fill="#DD1D21"/>
-                    <path d="M30 18 L44 28 L40 44 L20 44 L16 28 Z" fill="#FBCE07"/>
-                </svg>
-                <span class="shell-logo-text">SH<span>E</span>LL</span>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
-                <iconify-icon icon="system-uicons:menu-hamburger" class="hamburger-menu text-warning"></iconify-icon>
-            </button>
-            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar">
-                <div class="offcanvas-header">
-                    <h5 class="offcanvas-title text-warning">Menu</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
-                </div>
-                <div class="offcanvas-body">
-                    <ul class="navbar-nav align-items-center justify-content-end flex-grow-1 pe-3">
-                        <li class="nav-item"><a class="nav-link text-white text-uppercase mx-2 px-3" href="index.html">Home</a></li>
-                        <li class="nav-item"><a class="nav-link text-white text-uppercase mx-2 px-3" href="#">Fuels</a></li>
-                        <li class="nav-item"><a class="nav-link text-white text-uppercase mx-2 px-3" href="services.html">Services</a></li>
-                        <li class="nav-item"><a class="nav-link text-white text-uppercase mx-2 px-3" href="contact.html">Contact</a></li>
+    
+  <!-- ── NAVBAR ── -->
+<nav class="navbar fixed-top navbar-expand-lg container-fluid p-4">
+    <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center" href="index.html">
+            <img src="images/shell-logo1.png" alt="Shell Spar Express Ottawa" style="height: 50px; width: auto;">
+        </a>
+
+        <button class="navbar-toggler border-warning" type="button" data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+            <iconify-icon icon="system-uicons:menu-hamburger" class="hamburger-menu text-warning"></iconify-icon>
+        </button>
+
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title text-warning" id="offcanvasNavbarLabel">Menu</h5>
+                <button type="button" class="btn-close btn-close-white text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="navbar-nav align-items-center justify-content-end justify-content-xxl-center flex-grow-1 pe-3">
+                    <li class="nav-item">
+                        <a class="nav-link text-white text-uppercase active mx-2 px-3 mb-2 mb-lg-0" aria-current="page" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white text-uppercase mx-2 px-3 mb-2 mb-lg-0" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white text-uppercase mx-2 px-3 mb-2 mb-lg-0" href="services.html">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white text-uppercase mx-2 px-3 mb-2 mb-lg-0" href="#price">Car Wash</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white text-uppercase mx-2 px-3 mb-2 mb-lg-0" href="#blog">News</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white text-uppercase mx-2 px-3 mb-2 mb-lg-0" href="#project">Gallery</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white text-uppercase mx-2 px-3 mb-2 mb-lg-0" href="contact.html">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="booking.html" class="btn btn-outline-primary mx-2 px-3 py-2">Book Wash
+                            <iconify-icon icon="tabler:arrow-right" class="arrow-icon"></iconify-icon>
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="d-flex mt-5 mt-lg-0 ps-lg-5 align-items-center justify-content-end">
+                    <ul class="navbar-nav social-div justify-content-end align-items-center">
                         <li class="nav-item">
-                            <a href="booking.html" class="btn btn-shell ms-2 px-3 py-2" style="font-size:0.85rem;">Book Wash
-                                <iconify-icon icon="tabler:arrow-right"></iconify-icon>
+                            <a class="nav-link d-flex align-items-center px-3"
+                               href="https://www.facebook.com/Shell-Spar-Express-Ottawa" target="_blank">
+                                <iconify-icon icon="ri:facebook-fill" class="social-icon text-white"></iconify-icon>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center px-3"
+                               href="https://www.instagram.com/shell_ottawa" target="_blank">
+                                <iconify-icon icon="ri:instagram-line" class="social-icon text-white"></iconify-icon>
                             </a>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
-    </nav>
+    </div>
+</nav>
 
     <!-- ── HERO ── -->
     <section class="booking-hero">
