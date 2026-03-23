@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery — Shell Spar Express Ottawa, Verulam</title>
+
+    <link rel="stylesheet" type="text/css" href="css/vendor.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="js/modernizr.js"></script>
+
+    <style>
+        :root {
+            --shell-yellow: #FBCE07;
+            --shell-red:    #DD1D21;
+            --shell-dark:   #1A1A1A;
+        }
+
+        /* ── Navbar ── */
+        .navbar { background-color: var(--shell-dark) !important; border-bottom: 3px solid var(--shell-yellow); }
+        .shell-logo-text { font-family: 'Oswald', sans-serif; font-size: 24px; font-weight: 700; color: var(--shell-yellow); letter-spacing: 2px; }
+        .shell-logo-text span { color: var(--shell-red); }
+        .offcanvas { background-color: var(--shell-dark) !important; }
+        .navbar .nav-link:hover, .navbar .nav-link.active { color: var(--shell-yellow) !important; }
+
+        /* ── Hero ── */
+        .gallery-hero {
+            background-color: var(--shell-dark);
+            background-image: url(images/project-img.jpg);
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            padding: 10rem 0 5rem;
+        }
+        .gallery-hero::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.65); }
+        .gallery-hero .container { position: relative; z-index: 2; }
+
+        .section-label {
+            color: var(--shell-red);
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.28rem;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        /* ── Filter buttons ── */
+        .filter-bar { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 2.5rem; }
+        .filter-btn {
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.1rem;
+            text-transform: uppercase;
+            padding: 0.55rem 1.5rem;
+            border: 2px solid #ddd;
+            background: transparent;
+            color: #555;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-radius: 0;
+        }
+        .filter-btn:hover { border-color: var(--shell-yellow); color: var(--shell-dark); background: rgba(251,206,7,0.08); }
+        .filter-btn.active { background: var(--shell-yellow); border-color: var(--shell-yellow); color: var(--shell-dark); }
+
+        /* ── Gallery grid ── */
+        .gallery-grid { columns: 3; column-gap: 12px; }
+        @media (max-width: 992px) { .gallery-grid { columns: 2; } }
+        @media (max-width: 576px) { .gallery-grid { columns: 1; } }
+
+        .gallery-item {
+            break-inside: avoid;
+            margin-bottom: 12px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .gallery-item img {
+            width: 100%;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+        .gallery-item:hover img { transform: scale(1.05); }
+
+        /* ── Overlay ── */
+        .gallery-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(26,26,26,0.75);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            padding: 1rem;
+        }
+        .gallery-item:hover .gallery-overlay { opacity: 1; }
+        .overlay-cat {
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.18rem;
+            text-transform: uppercase;
+            color: var(--shell-yellow);
+            margin-bottom: 0.3rem;
+        }
+        .overlay-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #fff;
+            text-align: center;
+        }
+        .overlay-icon {
+            margin-top: 0.75rem;
+            width: 36px; height: 36px;
+            border: 2px solid var(--shell-yellow);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* ── Category label pill ── */
+        .cat-pill {
+            position: absolute;
+            top: 10px; left: 10px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.1rem;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            background: var(--shell-yellow);
+            color: var(--shell-dark);
+            z-index: 2;
+        }
+
+        /* ── Lightbox ── */
+        .lightbox-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.92);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        .lightbox-overlay.open { display: flex; }
+        .lightbox-inner { position: relative; max-width: 900px; width: 100%; }
+        .lightbox-inner img { width: 100%; display: block; border-top: 4px solid var(--shell-yellow); }
+        .lightbox-caption {
+            background: var(--shell-dark);
+            padding: 0.75rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .lightbox-caption span { color: #fff; font-size: 0.9rem; }
+        .lightbox-caption small { color: var(--shell-yellow); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1rem; }
+        .lightbox-close {
+            position: absolute;
+            top: -40px; right: 0;
+            background: none; border: none;
+            color: #fff; font-size: 1.5rem; cursor: pointer;
+            font-family: 'Oswald', sans-serif;
+        }
+        .lightbox-close:hover { color: var(--shell-yellow); }
+        .lightbox-nav {
+            position: absolute;
+            top: 50%; transform: translateY(-50%);
+            background: rgba(251,206,7,0.9);
+            border: none;
+            color: var(--shell-dark);
+            font-size: 1.4rem;
+            width: 44px; height: 44px;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.2s;
+        }
+        .lightbox-nav:hover { background: var(--shell-yellow); }
+        .lightbox-prev { left: -54px; }
+        .lightbox-next { right: -54px; }
+        @media (max-width: 700px) {
+            .lightbox-prev { left: 0; }
+            .lightbox-next { right: 0; }
+        }
+
+        /* ── Empty state ── */
+        .empty-state { text-align: center; padding: 4rem 1rem; display: none; }
+        .empty-state iconify-icon { font-size: 48px; color: #ddd; display: block; margin-bottom: 1rem; }
+        .empty-state p { color: #aaa; font-size: 0.95rem; }
+
+        /* ── CTA band ── */
+        .cta-band { background: var(--shell-yellow); }
+
+        /* ── Footer strip ── */
+        .footer-strip { background: var(--shell-dark); color: #aaa; font-size: 0.875rem; padding: 1.5rem 0; border-top: 1px solid #333; }
+        .footer-strip a { color: #aaa; text-decoration: none; }
+        .footer-strip a:hover { color: var(--shell-yellow); }
+
+        /* ── Count badge ── */
+        .count-badge {
+            display: inline-block;
+            background: var(--shell-dark);
+            color: var(--shell-yellow);
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 1px 7px;
+            border-radius: 99px;
+            margin-left: 6px;
+            font-family: 'Oswald', sans-serif;
+        }
+        .filter-btn.active .count-badge { background: var(--shell-dark); color: var(--shell-yellow); }
+    </style>
+</head>
+
+<body>
+
+    <!-- ── NAVBAR ── -->
+    <nav class="navbar fixed-top navbar-expand-lg container-fluid p-4">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <img src="images/shell-logo.png" alt="Shell Spar Express Ottawa" style="height: 50px; width: auto;">
+            </a>
+            <button class="navbar-toggler border-warning" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
+                <iconify-icon icon="system-uicons:menu-hamburger" class="hamburger-menu text-warning"></iconify-icon>
+            </button>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title text-warning">Menu</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav align-items-center justify-content-end flex-grow-1 pe-3">
+                        <li class="nav-item"><a class="nav-link text-white text-uppercase mx-2 px-3" href="index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link text-white text-uppercase mx-2 px-3" href="about.html">About</a></li>
+                        <li class="nav-item"><a class="nav-link text-white text-uppercase mx-2 px-3" href="services.html">Services</a></li>
+                        <li class="nav-item"><a class="nav-link text-white text-uppercase mx-2 px-3 active" href="project.html">Gallery</a></li>
+                        <li class="nav-item"><a class="nav-link text-white text-uppercase mx-2 px-3" href="contact.html">Contact</a></li>
+                        <li class="nav-item">
+                            <a href="booking.html" style="background:var(--shell-yellow);color:var(--shell-dark);border-radius:0;font-family:'Oswald',sans-serif;font-size:0.85rem;font-weight:700;letter-spacing:0.1rem;text-transform:uppercase;padding:0.6rem 1.5rem;text-decoration:none;display:inline-block;margin-left:0.5rem;">
+                                Book Wash <iconify-icon icon="tabler:arrow-right" style="font-size:14px;vertical-align:middle;"></iconify-icon>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ── HERO ── -->
+    <section class="gallery-hero">
+        <div class="container text-center">
+            <span class="section-label">Shell Ottawa — Verulam</span>
+            <h1 class="display-3 text-white mb-3">Our gallery</h1>
+            <p class="text-white-50" style="font-size:1.05rem;max-width:520px;margin:0 auto;">
+                A look inside Shell Ottawa — car washes, our station, Spar Express, and the team behind it all.
+            </p>
+        </div>
+    </section>
+
+    <!-- ── GALLERY SECTION ── -->
+    <section style="background:#F6F6F6;padding:5rem 0;">
+        <div class="container">
+
+            <!-- Filter bar -->
+            <div class="filter-bar" id="filter-bar">
+                <button class="filter-btn active" data-filter="all" onclick="filterGallery('all', this)">
+                    All <span class="count-badge" id="count-all">27</span>
+                </button>
+                <button class="filter-btn" data-filter="carwash" onclick="filterGallery('carwash', this)">
+                    Car Wash <span class="count-badge" id="count-carwash">12</span>
+                </button>
+                <button class="filter-btn" data-filter="station" onclick="filterGallery('station', this)">
+                    Station <span class="count-badge" id="count-station">7</span>
+                </button>
+                <button class="filter-btn" data-filter="spar" onclick="filterGallery('spar', this)">
+                    Spar &amp; Food <span class="count-badge" id="count-spar">4</span>
+                </button>
+                <button class="filter-btn" data-filter="team" onclick="filterGallery('team', this)">
+                    Our Team <span class="count-badge" id="count-team">4</span>
+                </button>
+            </div>
+
+            <!-- Gallery grid with Afribiz images + Car Wash images -->
+            <div class="gallery-grid" id="gallery-grid">
+
+                <!-- ── STATION PHOTOS (Afribiz) ── -->
+                <div class="gallery-item" data-cat="station" data-title="Shell Station Front" onclick="openLightbox(this)">
+                    <span class="cat-pill">Station</span>
+                    <img src="images/Afribiz03044.webp" alt="Shell Station Front" style="height:280px; object-fit:cover;">
+                    <div class="gallery-overlay">
+                        <span class="overlay-cat">Station</span>
+                        <span class="overlay-title">Shell Station Front</span>
+                        <div class="overlay-icon"><iconify-icon icon="mdi:magnify-plus" style="font-size:18px;color:var(--shell-yellow);"></iconify-icon></div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-cat="station" data-title="Fuel Pumps" onclick="openLightbox(this)">
+                    <span class="cat-pill">Station</span>
+                    <img src="images/Afribiz03045.webp" alt="Fuel Pumps" style="height:220px; object-fit:cover;">
+                    <div class="gallery-overlay">
+                        <span class="overlay-cat">Station</span>
+                        <span class="overlay-title">Fuel Pumps</span>
+                        <div class="overlay-icon"><iconify-icon icon="mdi:magnify-plus" style="font-size:18px;color:var(--shell-yellow);"></iconify-icon></div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-cat="station" data-title="Station Canopy" onclick="openLightbox(this)">
+                    <span class="cat-pill">Station</span>
+                    <img src="images/Afribiz03047.webp" alt="Station Canopy" style="height:240px; object-fit:cover;">
+                    <div class="gallery-overlay">
+                        <span class="overlay-cat">Station</span>
+                        <span class="overlay-title">Station Canopy</span>
+                        <div class="overlay-icon"><iconify-icon icon="mdi:magnify-plus" style="font-size:18px;color:var(--shell-yellow);"></iconify-icon></div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-cat="station" data-title="Station Exterior" onclick="openLightbox(this)">
+                    <span class="cat-pill">Station</span>
+                    <img src="images/Afribiz03048.webp" alt="Station Exterior" style="height:200px; object-fit:cover;">
+                    <div class="gallery-overlay">
+                        <span class="overlay-cat">Station</span>
+                        <span class="overlay-title">Station Exterior</span>
+                        <div class="overlay-icon"><iconify-icon icon="mdi:magnify-plus" style="font-size:18px;color:var(--shell-yellow);"></iconify-icon></div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-cat="station" data-title="Fuel Pumps at Night" onclick="openLightbox(this)">
+                    <span class="cat-pill">Station</span>
+                    <img src="images/Afribiz03049.webp" alt="Fuel Pumps at Night" style="height:260px; object-fit:cover;">
+                    <div class="gallery-overlay">
+                        <span class="overlay-cat">Station</span>
+                        <span class="overlay-title">Fuel Pumps at Night</span>
+                        <div class="overlay-icon"><iconify-icon icon="mdi:magnify-plus" style="font-size:18px;color:var(--shell-yellow);"></iconify-icon></div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-cat="station" data-title="Station Overview" onclick="openLightbox(this)">
+                    <span class="cat-pill">Station</span>
+                    <img src="images/Afribiz03050.webp" alt="Station Overview" style="height:300px; object-fit:cover;">
+                    <div class="gallery-overlay">
+                        <span class="overlay-cat">Station</span>
+                        <span class="overlay-title">Station Overview</span>
+                        <div class="overlay-icon"><iconify-icon icon="mdi:magnify-plus" style="font-size:18px;color:var(--shell-yellow);"></iconify-icon></div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-cat="station" data-title="Entrance View" onclick="openLightbox(this)">
+                    <span class="cat-pill">Station</span>
+                    <img src="images/Afribiz03052.webp" alt="Entrance View" style="height:220px; object-fit:cover;">
+                    <div class="gallery-overlay">
+                        <span class="overlay-cat">Station</span>
+                        <span class="overlay-title">Entrance View</span>
+                        <div class="overlay-icon"><iconify-icon icon="mdi:magnify-plus" style="font-size:18px;color:var(--shell-yellow);"></iconify-icon></div>
+                    </div>
+                </div>
+
+                <!-- ── CAR WASH PHOTOS (Afribiz + Additional) ── -->
+                <div class="gallery-item" data-cat="carwash" data-title="Car Wash Bay" onclick="openLightbox(this)">
+                    <span class="cat-pill">Car Wash</span>
+                    <img src="images/Afribiz03053.webp" alt="Car Wash Bay" style="height:240px; object-fit:cover;">
+                    <div class="gallery-overlay">
+                        <span class="overlay-cat">Car Wash</span>
+                        <span class="overlay-title">Car Wash Bay</span>
+                        <div class="overlay-icon"><iconify-icon icon="mdi:magnify-plus" style="font-size:18px;color:var(--shell-yellow);"></iconify-icon></div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-cat="carwash" data-title="Vehicle Being Washed" onclick="openLightbox(this)">
+                    <span class="cat-pill">Car Wash</span>
+                    <img src="images/Afribiz03055.webp" alt="Vehicle Being Washed" style="height:200px; object-fit:cover;">
+                    <div class="gallery-overlay">
+                        <span class="overlay-cat">Car Wash</span>
+                        <span class="overlay-title">Vehicle Being Washed</span>
+                        <div class="overlay-icon"><iconify-icon icon="mdi:magnify-plus" style="font-size:18px;color:var(--shell-yellow);"></iconify-icon></div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-cat="carwash" data-title="Car Wash in Action" onclick="openLightbox(this)">
+                    <span class="cat-pill">Car Wash</span>
+                    <img src="images/Afribiz03056.webp" alt="Car Wash in Action" style="height:280px; object-fit:cover;">
+                    <div class="gallery-overlay">
+                        <span class="overlay-cat">Car Wash</span>
+                        <span class="overlay-title">Car Wash in Action</span>
+                        <div class="overlay-icon"><iconify-icon icon="mdi:magnify-plus" style="font-size:18px;color:var(--shell-yellow);"></iconify-icon></div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-cat="carwash" data-title="Detailing Service" onclick="openLightbox(this)">
+                    <span class="cat-pill">Car Wash</span>
+                    <img src="images/Afribiz03058.webp" alt="Detailing Service" style="height:220px; object-fit:cover;">
+                    <div class="gallery-overlay">
+                        <span class="overlay-cat">Car Wash</span>
+                        <span class="overlay-title">Detailing Service</span>
+                        <div class="overlay-icon"><iconify-icon icon="mdi:magnify-plus" style="font-size:18px;color:var(--shell-yellow);"></iconify-icon></div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-cat="carwash" data-title="Interior Cleaning" onclick="openLightbox(this)">
+                    <span class="cat-pill">Car Wash</span>
+                    <img src="images/Afribiz03059.webp" alt="Interior Cleaning" style="height:260px; object-fit:cover;">
+                    <div class="gallery-overlay">
+                        <span class="overlay-cat">Car Wash</span>
+                        <span class="overlay-title">Interior Cleaning</span>
+                        <div class="overlay-icon"><iconify-icon icon="mdi:magnify-plus" style="font-size:18px;color:var(--shell-yellow);"></iconify-icon></div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-cat="carwash" data-title="After Wash Result" onclick="openLightbox(this)">
+                    <span class="cat-pill">Car Wash</span>
+                    <img src="images/Afribiz03068.webp" alt="After Wash Result" style="height:300px; object-fit:cover;">
+                    <div class="gallery-overlay">
+                        <span class="overlay-cat">Car Wash</span>
+                        <span class="overlay-title">After Wash Result</span>
+                        <div class="overlay-icon"><iconify-icon icon="mdi:magnify-plus" style="font-size:18px;color:var(--shell-yellow);"></iconify-icon></div>
+                    </div>
+                </div>
+
+                <!-- Additional Car Wash Images (project1-4, vid-img) -->
+                <div class="gallery-item" data-cat="carwash" data-title="Professional Car Wash" onclick="openLightbox(this)">
+                    <span class="cat-pill">Car Wash</span>
+                    <img src="images/project1.jpg" alt="Professional Car Wash" style="height:240px; object-fit:cover;">
+                    <div class="gallery-overlay">
+                        <span class="overlay-cat">Car Wash</span>
+                        <span class="overlay-title">Professional Car Wash</span>
+                        <div class="overlay-icon"><iconify-icon icon="mdi:magnify-plus" style="font-size:18px;color:var(--shell-yellow);"></iconify-icon></div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-cat="carwash" data-title="Exterior Wash" onclick="openLightbox(this)">
+                    <span class="cat-pill">Car Wash</span>
+                    <img src="images/project2.jpg" alt="Exterior Wash" style="height:200px; object-fit:cover;">
+                    <div class="gallery-overlay">
+                        <span class="overlay-cat">Car Wash</span>
+                        <span class="overlay-title">Exterior Wash</span>
+                        <div class="overlay-icon"><iconify-icon icon="mdi:magnify-plus" style="font-size:18px;color:var(--shell-yellow);"></iconify-icon></div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-cat="carwash" data-title="Interior Detail" onclick="openLightbox(this)">
+                    <span class="cat-pill">Car Wash</span>
+                    <img src="images/project3.jpg" alt="Interior Detail" style="height:280px; object-fit:cover;">
+                    <div class="gallery-overlay">
+                        <span class="overlay-cat">Car Wash</span>
+                        <span class="overlay-title">Interior Detail</span>
+                        <div class="overlay-icon"><iconify-icon icon="mdi:magnify-plus" style="font-size:18px;color:var(--shell-yellow);"></iconify-icon></div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-cat="carwash" data-title="Full Service Wash" onclick="openLightbox(this)">
+                    <span class="cat-pill">Car Wash</span>
+                    <img src="images/project4.jpg" alt="Full Service Wash" style="height:220px; object-fit:cover;">
+                    <div class="gallery-overlay">
+                        <span class="overlay-cat">Car Wash</span>
+                        <span class="overlay-title">Full Service Wash</span>
+                        <div class="overlay-icon"><iconify-icon icon="mdi:magnify-plus" style="font-size:18px;color:var(--shell-yellow);"></iconify-icon></div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-cat="carwash" data-title="Car Wash Video Highlight" onclick="openLightbox(this)">
+                    <span class="cat-pill">Car Wash</span>
+                    <img src="images/vid-img.jpg" alt="Car Wash Video Highlight" style="height:260px; object-fit:cover;">
+                    <div class="gallery-overlay">
+                        <span class="overlay-cat">Car Wash</span>
+                        <span class="overlay-title">Car Wash Video Highlight</span>
+                        <div class="overlay-icon"><iconify-icon icon="mdi:magnify-plus" style="font-size:18px;color:var(--shell-yellow);"></iconify-icon></div>
+                    </div>
+                </div>
+
+                <!-- ── SPAR & FOOD PHOTOS ── -->
+                <div class="gallery-item" data-cat="spar" data-title="SPAR Express Store" onclick="openLightbox(this)">
+                    <span class="cat-pill">Spar &amp; Food</span>
+                    <img src="images/Afribiz03065.webp" alt="SPAR Express Store" style="height:240px; object-fit:cover;">
+                    <div class="gallery-overlay">
+                        <span class="overlay-cat">Spar &amp; Food</span>
+                        <span class="overlay-title">SPAR Express Store</span>
+                        <div class="overlay-icon"><iconify-icon icon="mdi:magnify-plus" style="font-size:18px;color:var(--shell-yellow);"></iconify-icon></div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-cat="spar" data-title="Fresh Food Section" onclick="openLightbox(this)">
+                    <span class="cat-pill">Spar &amp; Food</span>
+                    <img src="images/Afribiz03069.webp" alt="Fresh Food Section" style="height:200px; object-fit:cover;">
+                    <div class="gallery-overlay">
+                        <span class="overlay-cat">Spar &amp; Food</span>
+                        <span class="overlay-title">Fresh Food Section</span>
+                        <div class="overlay-icon"><iconify-icon icon="mdi:magnify-plus" style="font-size:18px;color:var(--shell-yellow);"></iconify-icon></div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-cat="spar" data-title="Curries & Hot Meals" onclick="openLightbox(this)">
+                    <span class="cat-pill">Spar &amp; Food</span>
+                    <img src="images/Afribiz03071.webp" alt="Curries & Hot Meals" style="height:280px; object-fit:cover;">
+                    <div class="gallery-overlay">
+                        <span class="overlay-cat">Spar &amp; Food</span>
+                        <span class="overlay-title">Curries &amp; Hot Meals</span>
+                        <div class="overlay-icon"><iconify-icon icon="mdi:magnify-plus" style="font-size:18px;color:var(--shell-yellow);"></iconify-icon></div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-cat="spar" data-title="Store Shelves" onclick="openLightbox(this)">
+                    <span class="cat-pill">Spar &amp; Food</span>
+                    <img src="images/Afribiz03072.webp" alt="Store Shelves" style="height:220px; object-fit:cover;">
+                    <div class="gallery-overlay">
+                        <span class="overlay-cat">Spar &amp; Food</span>
+                        <span class="overlay-title">Store Shelves</span>
+                        <div class="overlay-icon"><iconify-icon icon="mdi:magnify-plus" style="font-size:18px;color:var(--shell-yellow);"></iconify-icon></div>
+                    </div>
+                </div>
+
+                <!-- ── TEAM PHOTOS ── -->
+                <div class="gallery-item" data-cat="team" data-title="Our Station Team" onclick="openLightbox(this)">
+                    <span class="cat-pill">Our Team</span>
+                    <img src="images/Afribiz03073.webp" alt="Our Station Team" style="height:260px; object-fit:cover;">
+                    <div class="gallery-overlay">
+                        <span class="overlay-cat">Our Team</span>
+                        <span class="overlay-title">Our Station Team</span>
+                        <div class="overlay-icon"><iconify-icon icon="mdi:magnify-plus" style="font-size:18px;color:var(--shell-yellow);"></iconify-icon></div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-cat="team" data-title="Friendly Service" onclick="openLightbox(this)">
+                    <span class="cat-pill">Our Team</span>
+                    <img src="images/Afribiz03074.webp" alt="Friendly Service" style="height:240px; object-fit:cover;">
+                    <div class="gallery-overlay">
+                        <span class="overlay-cat">Our Team</span>
+                        <span class="overlay-title">Friendly Service</span>
+                        <div class="overlay-icon"><iconify-icon icon="mdi:magnify-plus" style="font-size:18px;color:var(--shell-yellow);"></iconify-icon></div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-cat="team" data-title="Car Wash Team" onclick="openLightbox(this)">
+                    <span class="cat-pill">Our Team</span>
+                    <img src="images/Afribiz03058.webp" alt="Car Wash Team" style="height:280px; object-fit:cover;">
+                    <div class="gallery-overlay">
+                        <span class="overlay-cat">Our Team</span>
+                        <span class="overlay-title">Car Wash Team</span>
+                        <div class="overlay-icon"><iconify-icon icon="mdi:magnify-plus" style="font-size:18px;color:var(--shell-yellow);"></iconify-icon></div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-cat="team" data-title="SPAR Team" onclick="openLightbox(this)">
+                    <span class="cat-pill">Our Team</span>
+                    <img src="images/Afribiz03059.webp" alt="SPAR Team" style="height:220px; object-fit:cover;">
+                    <div class="gallery-overlay">
+                        <span class="overlay-cat">Our Team</span>
+                        <span class="overlay-title">SPAR Team</span>
+                        <div class="overlay-icon"><iconify-icon icon="mdi:magnify-plus" style="font-size:18px;color:var(--shell-yellow);"></iconify-icon></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Empty state (shown when filter has no results) -->
+            <div class="empty-state" id="empty-state">
+                <iconify-icon icon="mdi:image-off-outline"></iconify-icon>
+                <p>No photos in this category yet.<br>Check back soon or follow us on Instagram <a href="https://www.instagram.com/shell_ottawa" target="_blank" style="color:var(--shell-red);">@shell_ottawa</a></p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ── LIGHTBOX ── -->
+    <div class="lightbox-overlay" id="lightbox" onclick="closeLightboxOnBg(event)">
+        <div class="lightbox-inner">
+            <button class="lightbox-close" onclick="closeLightbox()">✕ Close</button>
+            <button class="lightbox-nav lightbox-prev" onclick="navigateLightbox(-1)">&#8592;</button>
+            <button class="lightbox-nav lightbox-next" onclick="navigateLightbox(1)">&#8594;</button>
+            <img id="lightbox-img" src="" alt="">
+            <div class="lightbox-caption">
+                <div>
+                    <small id="lightbox-cat"></small><br>
+                    <span id="lightbox-title"></span>
+                </div>
+                <small id="lightbox-count" style="color:#aaa;"></small>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── CTA BAND ── -->
+    <section class="cta-band py-5">
+        <div class="container text-center py-2">
+            <h2 style="font-family:'Oswald',sans-serif;font-size:2rem;font-weight:700;text-transform:uppercase;color:var(--shell-dark);margin-bottom:0.75rem;">Want your car looking this good?</h2>
+            <p style="color:#5a4900;margin-bottom:1.5rem;">Book a wash at Shell Ottawa — Express, Silver, Gold or Platinum.</p>
+            <a href="booking.html" style="background:var(--shell-dark);color:var(--shell-yellow);border-radius:0;font-family:'Oswald',sans-serif;font-size:0.9rem;font-weight:700;letter-spacing:0.1rem;text-transform:uppercase;padding:1rem 2.5rem;text-decoration:none;display:inline-block;transition:background 0.2s;">
+                Book a wash →
+            </a>
+        </div>
+    </section>
+
+  <!-- ── FOOTER ── -->
+<section id="footer">
+    <div class="container footer-containerG mt-5 mt-md-0 pt-3">
+        <footer class="row row-cols-1 row-cols-sm-2 row-cols-md-5 my-5 py-5">
+            <div class="col-md-3 my-5 mt-md-0">
+                <div class="d-flex align-items-center mb-3">
+                    <img src="images/shell-logo1.png" alt="Shell Spar Express Ottawa" style="height: 45px; width: auto;">
+                </div>
+                <p style="color:#aaa;font-size:0.9rem;" class="my-3">Shell Spar Express Ottawa — your 24/7 fuel, food, and car care destination in Verulam.</p>
+                <p style="color:#aaa;font-size:0.85rem;" class="mb-3">59 Old Main Road (Chris Hani Road)<br>Ottawa, Verulam, 4339</p>
+                <div class="d-flex align-items-center">
+                    <a href="https://www.facebook.com/Shell-Spar-Express-Ottawa" target="_blank"><iconify-icon class="social-icon-footer active pe-4" icon="mdi:facebook"></iconify-icon></a>
+                    <a href="https://www.instagram.com/shell_ottawa" target="_blank"><iconify-icon class="social-icon-footer pe-4" icon="mdi:instagram"></iconify-icon></a>
+                </div>
+            </div>
+            <div class="col-md-2 offset-md-1">
+                <h5 class="fs-5 mt-3 mt-md-0 mb-3 text-white">About us</h5>
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item footer-list mb-3"><a href="about.html" class="nav-link text-uppercase p-0">About us</a></li>
+                    <li class="nav-item footer-list mb-3"><a href="services.html" class="nav-link text-uppercase p-0">Our services</a></li>
+                    <li class="nav-item footer-list mb-3"><a href="#" class="nav-link text-uppercase p-0">Why choose us</a></li>
+                </ul>
+            </div>
+            <div class="col-md-2">
+                <h5 class="fs-5 mt-3 mt-md-0 mb-3 text-white">Our services</h5>
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item footer-list mb-3"><a href="services.html" class="nav-link text-uppercase p-0">Car wash</a></li>
+                    <li class="nav-item footer-list mb-3"><a href="services.html" class="nav-link text-uppercase p-0">Fuel &amp; lubricants</a></li>
+                    <li class="nav-item footer-list mb-3"><a href="services.html" class="nav-link text-uppercase p-0">Spar Express</a></li>
+                    <li class="nav-item footer-list mb-3"><a href="services.html" class="nav-link text-uppercase p-0">ATMs &amp; banking</a></li>
+                    <li class="nav-item footer-list mb-3"><a href="services.html" class="nav-link text-uppercase p-0">Courier Guy locker</a></li>
+                </ul>
+            </div>
+            <div class="col-md-2">
+                <h5 class="fs-5 mt-3 mt-md-0 mb-3 text-white">Contact us</h5>
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item footer-list mb-3"><a href="tel:0753214777" class="nav-link text-uppercase p-0">075 321 4777</a></li>
+                    <li class="nav-item footer-list mb-3"><a href="mailto:shellgarageottawa@gmail.com" class="nav-link p-0" style="font-size:0.8rem;text-transform:none;">shellgarageottawa@gmail.com</a></li>
+                    <li class="nav-item footer-list mb-3"><a href="contact.html" class="nav-link text-uppercase p-0">Send a message</a></li>
+                    <li class="nav-item footer-list mb-3"><a href="https://maps.google.com/?q=59+Old+Main+Road+Riet+River+Verulam+4339" target="_blank" class="nav-link text-uppercase p-0">Get directions</a></li>
+                </ul>
+            </div>
+            <div class="col-md-2">
+                <h5 class="fs-5 mt-3 mt-md-0 mb-3 text-white">Follow us</h5>
+                <ul class="navbar-nav flex-column">
+                    <li class="nav-item footer-list mb-3">
+                        <a href="https://www.facebook.com/Shell-Spar-Express-Ottawa" target="_blank" class="nav-link text-uppercase p-0">
+                            <iconify-icon icon="mdi:facebook" style="font-size:16px;vertical-align:middle;margin-right:6px;"></iconify-icon>Shell Spar Ottawa
+                        </a>
+                    </li>
+                    <li class="nav-item footer-list mb-3">
+                        <a href="https://www.instagram.com/shell_ottawa" target="_blank" class="nav-link text-uppercase p-0">
+                            <iconify-icon icon="mdi:instagram" style="font-size:16px;vertical-align:middle;margin-right:6px;"></iconify-icon>@shell_ottawa
+                        </a>
+                    </li>
+                    <li class="nav-item footer-list mb-3">
+                        <a href="booking.html" class="nav-link text-uppercase p-0" style="color:var(--shell-yellow) !important;font-weight:700;">Book a wash →</a>
+                    </li>
+                </ul>
+            </div>
+        </footer>
+    </div>
+
+    <footer class="d-flex flex-wrap justify-content-between align-items-center border-top" style="border-color:#333 !important;"></footer>
+
+    <div class="container">
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-2 pt-4">
+            <div class="col-md-6 d-flex align-items-center">
+                <p style="color:#aaa;font-size:0.85rem;">© 2024 Shell Ottawa, Verulam | All Rights Reserved</p>
+            </div>
+            <div class="col-md-6 d-flex align-items-center justify-content-end">
+                <p style="color:#aaa;font-size:0.85rem;">
+                    Developed by <a href="https://afribizconnect.co.za/" target="_blank" style="color:var(--shell-yellow); text-decoration:none; font-weight:700;">Afribiz Connect</a>
+                </p>
+            </div>
+        </footer>
+    </div>
+</section>
+
+    <!-- ── SCRIPTS ── -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+
+    <script>
+        let currentItems = [];
+        let currentIndex = 0;
+        let activeFilter = 'all';
+
+        function getVisibleItems() {
+            return Array.from(document.querySelectorAll('.gallery-item'))
+                .filter(el => el.style.display !== 'none');
+        }
+
+        function filterGallery(cat, btn) {
+            activeFilter = cat;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const items = document.querySelectorAll('.gallery-item');
+            let visible = 0;
+            items.forEach(item => {
+                const show = cat === 'all' || item.dataset.cat === cat;
+                item.style.display = show ? '' : 'none';
+                if (show) visible++;
+            });
+
+            document.getElementById('empty-state').style.display = visible === 0 ? 'block' : 'none';
+        }
+
+        function openLightbox(el) {
+            currentItems = getVisibleItems();
+            currentIndex = currentItems.indexOf(el);
+            showLightboxItem(currentIndex);
+            document.getElementById('lightbox').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function showLightboxItem(index) {
+            const item = currentItems[index];
+            const img = item.querySelector('img');
+            document.getElementById('lightbox-img').src = img.src;
+            document.getElementById('lightbox-img').alt = img.alt;
+            document.getElementById('lightbox-cat').textContent = item.dataset.cat.toUpperCase().replace('carwash','CAR WASH').replace('spar','SPAR & FOOD').replace('team','OUR TEAM').replace('station','STATION');
+            document.getElementById('lightbox-title').textContent = item.dataset.title;
+            document.getElementById('lightbox-count').textContent = (index + 1) + ' / ' + currentItems.length;
+        }
+
+        function navigateLightbox(dir) {
+            currentIndex = (currentIndex + dir + currentItems.length) % currentItems.length;
+            showLightboxItem(currentIndex);
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        function closeLightboxOnBg(e) {
+            if (e.target === document.getElementById('lightbox')) closeLightbox();
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (!document.getElementById('lightbox').classList.contains('open')) return;
+            if (e.key === 'ArrowRight') navigateLightbox(1);
+            if (e.key === 'ArrowLeft')  navigateLightbox(-1);
+            if (e.key === 'Escape')     closeLightbox();
+        });
+
+        // Update counts on load
+        window.addEventListener('DOMContentLoaded', function() {
+            const cats = ['carwash','station','spar','team'];
+            cats.forEach(cat => {
+                const count = document.querySelectorAll(`.gallery-item[data-cat="${cat}"]`).length;
+                const el = document.getElementById('count-' + cat);
+                if (el) el.textContent = count;
+            });
+            document.getElementById('count-all').textContent = document.querySelectorAll('.gallery-item').length;
+        });
+    </script>
+
+</body>
+</html>
