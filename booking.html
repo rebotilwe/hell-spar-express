@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book a Car Wash — Shell</title>
+    <title>Book a Car Wash — Shell Spar Express Ottawa, Verulam | Online Booking</title>
+    <meta name="description" content="Book your car wash online at Shell Spar Express Ottawa on Chris Hani Road, Verulam. Choose your vehicle type, wash package, and preferred time slot — we'll confirm by email.">
+    <meta name="keywords" content="book car wash Verulam, Shell Ottawa booking, car wash appointment, online booking Verulam">
 
     <link rel="stylesheet" type="text/css" href="css/vendor.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -15,22 +17,47 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="js/modernizr.js"></script>
 
+    <!-- AOS animations -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+
+    <!-- Schema Markup for Local Business -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "GasStation",
+      "name": "Shell Spar Express Ottawa",
+      "image": "https://shell-ottawa-express.netlify.app/images/Afribiz03019.webp",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "59 Chris Hani Road",
+        "addressLocality": "Verulam",
+        "addressRegion": "KwaZulu-Natal",
+        "postalCode": "4339",
+        "addressCountry": "ZA"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "-29.6357",
+        "longitude": "31.0456"
+      },
+      "url": "https://shell-ottawa-express.netlify.app/",
+      "telephone": "+27753214777",
+      "openingHours": "Mo-Su 00:00-23:59"
+    }
+    </script>
+
     <style>
         :root {
             --shell-yellow: #FBCE07;
             --shell-red:    #DD1D21;
             --shell-dark:   #1A1A1A;
+            --shell-light-gray: #F5F5F5;
         }
 
         /* ── Navbar ── */
         .navbar { background-color: var(--shell-dark) !important; border-bottom: 3px solid var(--shell-yellow); }
-        .shell-logo-text { font-family: 'Oswald', sans-serif; font-size: 24px; font-weight: 700; color: var(--shell-yellow); letter-spacing: 2px; }
-        .shell-logo-text span { color: var(--shell-red); }
         .offcanvas { background-color: var(--shell-dark) !important; }
         .navbar .nav-link:hover, .navbar .nav-link.active { color: var(--shell-yellow) !important; }
-        .dropdown-menu { background-color: var(--shell-dark); border: 1px solid var(--shell-yellow); }
-        .dropdown-item { color: #ccc !important; }
-        .dropdown-item:hover { background-color: var(--shell-yellow) !important; color: var(--shell-dark) !important; }
 
         /* ── Hero banner ── */
         .booking-hero {
@@ -113,8 +140,12 @@
             width: 100%;
         }
         .btn-shell:hover { background: #e0b800; color: var(--shell-dark); }
+        .btn-shell:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
 
-        /* ── Success message ── */
+        /* ── Success/Error messages ── */
         #success-msg {
             display: none;
             background: #f0faf4;
@@ -167,96 +198,137 @@
             margin: 3px 3px 3px 0;
         }
 
-        /* ── Footer strip ── */
-        .footer-strip {
-            background: var(--shell-dark);
-            color: #aaa;
-            font-size: 0.875rem;
-            padding: 1.5rem 0;
-            border-top: 1px solid #333;
+        /* ── Partner badges ── */
+        .partner-badge {
+            transition: transform 0.2s ease;
         }
-        .footer-strip a { color: #aaa; text-decoration: none; }
-        .footer-strip a:hover { color: var(--shell-yellow); }
+        .partner-badge:hover {
+            transform: translateY(-2px);
+        }
+
+        /* ── Footer ── */
+        #footer { background-color: var(--shell-dark); color: #ccc; }
+        #footer a { color: #ccc; }
+        #footer a:hover { color: var(--shell-yellow); }
+        #footer .footer-list a:hover { color: var(--shell-yellow); }
     </style>
 </head>
 
 <body>
 
-    
-  <!-- ── NAVBAR ── -->
-<nav class="navbar fixed-top navbar-expand-lg container-fluid p-4">
-    <div class="container-fluid">
-        <a class="navbar-brand d-flex align-items-center" href="index.html">
-            <img src="images/shell-logo1.png" alt="Shell Spar Express Ottawa" style="height: 50px; width: auto;">
-        </a>
+    <!-- ── NAVBAR ── -->
+    <nav class="navbar fixed-top navbar-expand-lg container-fluid p-4">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <img src="images/shell-logo1.png" alt="Shell Spar Express Ottawa - Fuel and Car Wash" style="height: 50px; width: auto;">
+            </a>
 
-        <button class="navbar-toggler border-warning" type="button" data-bs-toggle="offcanvas"
-            data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
-            <iconify-icon icon="system-uicons:menu-hamburger" class="hamburger-menu text-warning"></iconify-icon>
-        </button>
+            <button class="navbar-toggler border-warning" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                <iconify-icon icon="system-uicons:menu-hamburger" class="hamburger-menu text-warning"></iconify-icon>
+            </button>
 
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title text-warning" id="offcanvasNavbarLabel">Menu</h5>
-                <button type="button" class="btn-close btn-close-white text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body">
-                <ul class="navbar-nav align-items-center justify-content-end justify-content-xxl-center flex-grow-1 pe-3">
-                    <li class="nav-item">
-                        <a class="nav-link text-white text-uppercase active mx-2 px-3 mb-2 mb-lg-0" aria-current="page" href="index.html">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white text-uppercase mx-2 px-3 mb-2 mb-lg-0" href="about.html">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white text-uppercase mx-2 px-3 mb-2 mb-lg-0" href="services.html">Services</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white text-uppercase mx-2 px-3 mb-2 mb-lg-0" href="#price">Car Wash</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white text-uppercase mx-2 px-3 mb-2 mb-lg-0" href="#blog">News</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white text-uppercase mx-2 px-3 mb-2 mb-lg-0" href="#project">Gallery</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white text-uppercase mx-2 px-3 mb-2 mb-lg-0" href="contact.html">Contact</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="booking.html" class="btn btn-outline-primary mx-2 px-3 py-2">Book Wash
-                            <iconify-icon icon="tabler:arrow-right" class="arrow-icon"></iconify-icon>
-                        </a>
-                    </li>
-                </ul>
-
-                <div class="d-flex mt-5 mt-lg-0 ps-lg-5 align-items-center justify-content-end">
-                    <ul class="navbar-nav social-div justify-content-end align-items-center">
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title text-warning" id="offcanvasNavbarLabel">Menu</h5>
+                    <button type="button" class="btn-close btn-close-white text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav align-items-center justify-content-end justify-content-xxl-center flex-grow-1 pe-3">
                         <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center px-3"
-                               href="https://www.facebook.com/Shell-Spar-Express-Ottawa" target="_blank">
-                                <iconify-icon icon="ri:facebook-fill" class="social-icon text-white"></iconify-icon>
-                            </a>
+                            <a class="nav-link text-white text-uppercase mx-2 px-3 mb-2 mb-lg-0" href="index.html">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center px-3"
-                               href="https://www.instagram.com/shell_ottawa" target="_blank">
-                                <iconify-icon icon="ri:instagram-line" class="social-icon text-white"></iconify-icon>
+                            <a class="nav-link text-white text-uppercase mx-2 px-3 mb-2 mb-lg-0" href="about.html">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white text-uppercase mx-2 px-3 mb-2 mb-lg-0" href="services.html">Services</a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link text-white text-uppercase active mx-2 px-3 mb-2 mb-lg-0" aria-current="page" href="booking.html">Book Wash</a>
+                        </li> -->
+                        <li class="nav-item">
+                            <a class="nav-link text-white text-uppercase mx-2 px-3 mb-2 mb-lg-0" href="index.html#reviews">Reviews</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white text-uppercase mx-2 px-3 mb-2 mb-lg-0" href="index.html#project">Gallery</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white text-uppercase mx-2 px-3 mb-2 mb-lg-0" href="contact.html">Contact</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="booking.html" class="btn btn-outline-primary mx-2 px-3 py-2">Book Wash
+                                <iconify-icon icon="tabler:arrow-right" class="arrow-icon"></iconify-icon>
                             </a>
                         </li>
                     </ul>
+
+                    <div class="d-flex mt-5 mt-lg-0 ps-lg-5 align-items-center justify-content-end">
+                        <ul class="navbar-nav social-div justify-content-end align-items-center">
+                            <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center px-3"
+                                   href="https://www.facebook.com/Shell-Spar-Express-Ottawa" target="_blank" aria-label="Facebook">
+                                    <iconify-icon icon="ri:facebook-fill" class="social-icon text-white"></iconify-icon>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center px-3"
+                                   href="https://www.instagram.com/shell_ottawa" target="_blank" aria-label="Instagram">
+                                    <iconify-icon icon="ri:instagram-line" class="social-icon text-white"></iconify-icon>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
     <!-- ── HERO ── -->
-    <section class="booking-hero">
+    <section class="booking-hero" aria-label="Book your car wash at Shell Ottawa">
         <div class="container text-center">
             <p style="color:var(--shell-red);font-family:'Oswald',sans-serif;font-size:0.85rem;font-weight:700;letter-spacing:0.28rem;text-transform:uppercase;margin-bottom:0.75rem;">Shell Car Wash</p>
             <h1 class="display-3 text-white mb-3">Book your wash</h1>
-            <p class="text-white-50 mb-0" style="font-size:1.1rem;">Fill in the form below and we'll confirm your booking by email.</p>
+            <p class="text-white-50 mb-0" style="font-size:1.1rem;">Fill in the form below and we'll confirm your booking by email within 1 business hour.</p>
+            <!-- Click-to-Call Button for Mobile -->
+            <div class="mt-4">
+                <a href="tel:0753214777" class="d-inline-flex align-items-center gap-2 text-white text-decoration-none bg-dark px-4 py-2 rounded-pill" style="background: rgba(0,0,0,0.7) !important;">
+                    <iconify-icon icon="mdi:phone"></iconify-icon>
+                    <span>Call us: 075 321 4777</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── PARTNER BADGES (consistent with other pages) ── -->
+    <section class="py-4 border-top border-bottom" style="background: #fff;">
+        <div class="container">
+            <div class="row text-center align-items-center g-4">
+                <div class="col-6 col-md-3">
+                    <div class="d-flex align-items-center justify-content-center gap-2 partner-badge">
+                        <iconify-icon icon="mdi:cash-multiple" style="font-size:28px; color:var(--shell-red);"></iconify-icon>
+                        <span class="fw-semibold">All Major Cards</span>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="d-flex align-items-center justify-content-center gap-2 partner-badge">
+                        <iconify-icon icon="mdi:bank" style="font-size:28px; color:var(--shell-red);"></iconify-icon>
+                        <span class="fw-semibold">ATMs Available</span>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="d-flex align-items-center justify-content-center gap-2 partner-badge">
+                        <iconify-icon icon="mdi:package-variant" style="font-size:28px; color:var(--shell-red);"></iconify-icon>
+                        <span class="fw-semibold">Courier Guy Locker</span>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="d-flex align-items-center justify-content-center gap-2 partner-badge">
+                        <iconify-icon icon="mdi:star-circle" style="font-size:28px; color:var(--shell-yellow);"></iconify-icon>
+                        <span class="fw-semibold">V+ Rewards Accepted</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -267,13 +339,13 @@
 
                 <!-- FORM COLUMN -->
                 <div class="col-lg-8">
-                    <div class="booking-card">
+                    <div class="booking-card" data-aos="fade-right">
 
                         <div id="success-msg">
-                            <strong>Booking received!</strong> Thank you — we'll confirm your appointment by email within 1 business hour.
+                            <strong>✓ Booking received!</strong> Thank you — we'll confirm your appointment by email within 1 business hour.
                         </div>
                         <div id="error-msg">
-                            <strong>Something went wrong.</strong> Please try again or call us on +1 800 SHELL 01.
+                            <strong>✗ Something went wrong.</strong> Please try again or call us on 075 321 4777.
                         </div>
 
                         <!--
@@ -286,7 +358,7 @@
                         <form id="booking-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" novalidate>
 
                             <!-- Hidden Formspree fields -->
-                            <input type="hidden" name="_subject" value="New Shell Car Wash Booking">
+                            <input type="hidden" name="_subject" value="New Shell Car Wash Booking - Shell Ottawa">
                             <input type="text" name="_gotcha" style="display:none">
 
                             <!-- SECTION 1: Personal details -->
@@ -299,7 +371,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label" for="phone">Phone number <span style="color:var(--shell-red)">*</span></label>
-                                    <input type="tel" class="form-control" id="phone" name="phone" placeholder="e.g. +27 82 000 0000" required>
+                                    <input type="tel" class="form-control" id="phone" name="phone" placeholder="e.g. 082 123 4567" required>
                                     <div class="invalid-feedback">Please enter a valid phone number.</div>
                                 </div>
                                 <div class="col-12">
@@ -328,10 +400,10 @@
                                     <label class="form-label" for="wash-package">Wash package <span style="color:var(--shell-red)">*</span></label>
                                     <select class="form-select" id="wash-package" name="wash_package" required>
                                         <option value="" disabled selected>Select a package</option>
-                                        <option>Express</option>
-                                        <option>Silver</option>
-                                        <option>Gold</option>
-                                        <option>Platinum</option>
+                                        <option>Express (R160 - R480)</option>
+                                        <option>Silver (R280 - R740)</option>
+                                        <option>Gold (R420 - R920)</option>
+                                        <option>Platinum (R650 - R1,400)</option>
                                     </select>
                                     <div class="invalid-feedback">Please select a wash package.</div>
                                 </div>
@@ -384,21 +456,22 @@
 
                 <!-- SIDEBAR COLUMN -->
                 <div class="col-lg-4">
-                    <div class="info-card">
+                    <div class="info-card" data-aos="fade-left">
                         <h5>Station hours</h5>
-                        <p>Mon – Fri: 6:00 am – 10:00 pm</p>
-                        <p>Sat – Sun: 7:00 am – 9:00 pm</p>
+                        <p>Open 24 hours a day</p>
+                        <p>7 days a week — including holidays</p>
 
                         <hr class="divider">
 
                         <h5>Contact us</h5>
-                        <p>+1 800 SHELL 01</p>
-                        <p>bookings@shell.com</p>
+                        <p><a href="tel:0753214777" style="color:var(--shell-yellow); text-decoration:none;">075 321 4777</a></p>
+                        <p><a href="mailto:shellgarageottawa@gmail.com" style="color:var(--shell-yellow); text-decoration:none;">shellgarageottawa@gmail.com</a></p>
 
                         <hr class="divider">
 
                         <h5>Our location</h5>
-                        <p>123 Shell Boulevard<br>Cape Town, 8001</p>
+                        <p>59 Chris Hani Road<br>Ottawa, Verulam, 4339</p>
+                        <a href="https://maps.google.com/?q=59+Old+Main+Road+Riet+River+Verulam+4339" target="_blank" style="color:var(--shell-yellow); font-size:0.85rem;">Get directions →</a>
 
                         <hr class="divider">
 
@@ -414,8 +487,8 @@
                         <hr class="divider">
 
                         <h5>Good to know</h5>
-                        <p style="font-size:0.85rem;">Bookings are confirmed within 1 business hour. You can cancel or reschedule up to 2 hours before your appointment.</p>
-                        <p style="font-size:0.85rem;">Earn <strong style="color:var(--shell-yellow);">ClubSmart points</strong> on every wash.</p>
+                        <p style="font-size:0.85rem;">Bookings are confirmed within 1 business hour. You can cancel or reschedule by calling us up to 2 hours before your appointment.</p>
+                        <p style="font-size:0.85rem;">Earn <strong style="color:var(--shell-yellow);">V+ Rewards points</strong> on every wash.</p>
                     </div>
                 </div>
 
@@ -423,92 +496,113 @@
         </div>
     </section>
 
-  <!-- ── FOOTER ── -->
-<section id="footer">
-    <div class="container footer-containerG mt-5 mt-md-0 pt-3">
-        <footer class="row row-cols-1 row-cols-sm-2 row-cols-md-5 my-5 py-5">
-            <div class="col-md-3 my-5 mt-md-0">
-                <div class="d-flex align-items-center mb-3">
-                    <img src="images/shell-logo1.png" alt="Shell Spar Express Ottawa" style="height: 45px; width: auto;">
+    <!-- ── FOOTER ── -->
+    <section id="footer">
+        <div class="container footer-containerG mt-5 mt-md-0 pt-3">
+            <footer class="row row-cols-1 row-cols-sm-2 row-cols-md-5 my-5 py-5">
+                <div class="col-md-3 my-5 mt-md-0">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="images/shell-logo1.png" alt="Shell Spar Express Ottawa - Fuel Station and Car Wash" style="height: 45px; width: auto;">
+                    </div>
+                    <p style="color:#aaa;font-size:0.9rem;" class="my-3">Shell Spar Express Ottawa — your 24/7 fuel, food, and car care destination in Verulam.</p>
+                    <p style="color:#aaa;font-size:0.85rem;" class="mb-3">59 Old Main Road (Chris Hani Road)<br>Ottawa, Verulam, 4339</p>
+                    <div class="d-flex align-items-center">
+                        <a href="https://www.facebook.com/Shell-Spar-Express-Ottawa" target="_blank" aria-label="Facebook"><iconify-icon class="social-icon-footer active pe-4" icon="mdi:facebook"></iconify-icon></a>
+                        <a href="https://www.instagram.com/shell_ottawa" target="_blank" aria-label="Instagram"><iconify-icon class="social-icon-footer pe-4" icon="mdi:instagram"></iconify-icon></a>
+                    </div>
                 </div>
-                <p style="color:#aaa;font-size:0.9rem;" class="my-3">Shell Spar Express Ottawa — your 24/7 fuel, food, and car care destination in Verulam.</p>
-                <p style="color:#aaa;font-size:0.85rem;" class="mb-3">59 Old Main Road (Chris Hani Road)<br>Ottawa, Verulam, 4339</p>
-                <div class="d-flex align-items-center">
-                    <a href="https://www.facebook.com/Shell-Spar-Express-Ottawa" target="_blank"><iconify-icon class="social-icon-footer active pe-4" icon="mdi:facebook"></iconify-icon></a>
-                    <a href="https://www.instagram.com/shell_ottawa" target="_blank"><iconify-icon class="social-icon-footer pe-4" icon="mdi:instagram"></iconify-icon></a>
+                <div class="col-md-2 offset-md-1">
+                    <h5 class="fs-5 mt-3 mt-md-0 mb-3 text-white">About us</h5>
+                    <ul class="navbar-nav flex-column">
+                        <li class="nav-item footer-list mb-3"><a href="about.html" class="nav-link text-uppercase p-0">About us</a></li>
+                        <li class="nav-item footer-list mb-3"><a href="services.html" class="nav-link text-uppercase p-0">Our services</a></li>
+                        <li class="nav-item footer-list mb-3"><a href="index.html#reviews" class="nav-link text-uppercase p-0">Customer reviews</a></li>
+                    </ul>
                 </div>
-            </div>
-            <div class="col-md-2 offset-md-1">
-                <h5 class="fs-5 mt-3 mt-md-0 mb-3 text-white">About us</h5>
-                <ul class="navbar-nav flex-column">
-                    <li class="nav-item footer-list mb-3"><a href="about.html" class="nav-link text-uppercase p-0">About us</a></li>
-                    <li class="nav-item footer-list mb-3"><a href="services.html" class="nav-link text-uppercase p-0">Our services</a></li>
-                    <li class="nav-item footer-list mb-3"><a href="#" class="nav-link text-uppercase p-0">Why choose us</a></li>
-                </ul>
-            </div>
-            <div class="col-md-2">
-                <h5 class="fs-5 mt-3 mt-md-0 mb-3 text-white">Our services</h5>
-                <ul class="navbar-nav flex-column">
-                    <li class="nav-item footer-list mb-3"><a href="services.html" class="nav-link text-uppercase p-0">Car wash</a></li>
-                    <li class="nav-item footer-list mb-3"><a href="services.html" class="nav-link text-uppercase p-0">Fuel &amp; lubricants</a></li>
-                    <li class="nav-item footer-list mb-3"><a href="services.html" class="nav-link text-uppercase p-0">Spar Express</a></li>
-                    <li class="nav-item footer-list mb-3"><a href="services.html" class="nav-link text-uppercase p-0">ATMs &amp; banking</a></li>
-                    <li class="nav-item footer-list mb-3"><a href="services.html" class="nav-link text-uppercase p-0">Courier Guy locker</a></li>
-                </ul>
-            </div>
-            <div class="col-md-2">
-                <h5 class="fs-5 mt-3 mt-md-0 mb-3 text-white">Contact us</h5>
-                <ul class="navbar-nav flex-column">
-                    <li class="nav-item footer-list mb-3"><a href="tel:0753214777" class="nav-link text-uppercase p-0">075 321 4777</a></li>
-                    <li class="nav-item footer-list mb-3"><a href="mailto:shellgarageottawa@gmail.com" class="nav-link p-0" style="font-size:0.8rem;text-transform:none;">shellgarageottawa@gmail.com</a></li>
-                    <li class="nav-item footer-list mb-3"><a href="contact.html" class="nav-link text-uppercase p-0">Send a message</a></li>
-                    <li class="nav-item footer-list mb-3"><a href="https://maps.google.com/?q=59+Old+Main+Road+Riet+River+Verulam+4339" target="_blank" class="nav-link text-uppercase p-0">Get directions</a></li>
-                </ul>
-            </div>
-            <div class="col-md-2">
-                <h5 class="fs-5 mt-3 mt-md-0 mb-3 text-white">Follow us</h5>
-                <ul class="navbar-nav flex-column">
-                    <li class="nav-item footer-list mb-3">
-                        <a href="https://www.facebook.com/Shell-Spar-Express-Ottawa" target="_blank" class="nav-link text-uppercase p-0">
-                            <iconify-icon icon="mdi:facebook" style="font-size:16px;vertical-align:middle;margin-right:6px;"></iconify-icon>Shell Spar Ottawa
-                        </a>
-                    </li>
-                    <li class="nav-item footer-list mb-3">
-                        <a href="https://www.instagram.com/shell_ottawa" target="_blank" class="nav-link text-uppercase p-0">
-                            <iconify-icon icon="mdi:instagram" style="font-size:16px;vertical-align:middle;margin-right:6px;"></iconify-icon>@shell_ottawa
-                        </a>
-                    </li>
-                    <li class="nav-item footer-list mb-3">
-                        <a href="booking.html" class="nav-link text-uppercase p-0" style="color:var(--shell-yellow) !important;font-weight:700;">Book a wash →</a>
-                    </li>
-                </ul>
-            </div>
-        </footer>
-    </div>
+                <div class="col-md-2">
+                    <h5 class="fs-5 mt-3 mt-md-0 mb-3 text-white">Our services</h5>
+                    <ul class="navbar-nav flex-column">
+                        <li class="nav-item footer-list mb-3"><a href="services.html" class="nav-link text-uppercase p-0">Car wash</a></li>
+                        <li class="nav-item footer-list mb-3"><a href="services.html" class="nav-link text-uppercase p-0">Fuel &amp; lubricants</a></li>
+                        <li class="nav-item footer-list mb-3"><a href="services.html" class="nav-link text-uppercase p-0">Spar Express</a></li>
+                        <li class="nav-item footer-list mb-3"><a href="services.html" class="nav-link text-uppercase p-0">ATMs &amp; banking</a></li>
+                        <li class="nav-item footer-list mb-3"><a href="services.html" class="nav-link text-uppercase p-0">Courier Guy locker</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2">
+                    <h5 class="fs-5 mt-3 mt-md-0 mb-3 text-white">Contact us</h5>
+                    <ul class="navbar-nav flex-column">
+                        <li class="nav-item footer-list mb-3"><a href="tel:0753214777" class="nav-link text-uppercase p-0">075 321 4777</a></li>
+                        <li class="nav-item footer-list mb-3"><a href="mailto:shellgarageottawa@gmail.com" class="nav-link p-0" style="font-size:0.8rem;text-transform:none;">shellgarageottawa@gmail.com</a></li>
+                        <li class="nav-item footer-list mb-3"><a href="contact.html" class="nav-link text-uppercase p-0">Send a message</a></li>
+                        <li class="nav-item footer-list mb-3"><a href="https://maps.google.com/?q=59+Old+Main+Road+Riet+River+Verulam+4339" target="_blank" class="nav-link text-uppercase p-0">Get directions</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2">
+                    <h5 class="fs-5 mt-3 mt-md-0 mb-3 text-white">Follow us</h5>
+                    <ul class="navbar-nav flex-column">
+                        <li class="nav-item footer-list mb-3">
+                            <a href="https://www.facebook.com/Shell-Spar-Express-Ottawa" target="_blank" class="nav-link text-uppercase p-0">
+                                <iconify-icon icon="mdi:facebook" style="font-size:16px;vertical-align:middle;margin-right:6px;"></iconify-icon>Shell Spar Ottawa
+                            </a>
+                        </li>
+                        <li class="nav-item footer-list mb-3">
+                            <a href="https://www.instagram.com/shell_ottawa" target="_blank" class="nav-link text-uppercase p-0">
+                                <iconify-icon icon="mdi:instagram" style="font-size:16px;vertical-align:middle;margin-right:6px;"></iconify-icon>@shell_ottawa
+                            </a>
+                        </li>
+                        <li class="nav-item footer-list mb-3">
+                            <a href="booking.html" class="nav-link text-uppercase p-0" style="color:var(--shell-yellow) !important;font-weight:700;">Book a wash →</a>
+                        </li>
+                    </ul>
+                </div>
+            </footer>
+        </div>
 
-    <footer class="d-flex flex-wrap justify-content-between align-items-center border-top" style="border-color:#333 !important;"></footer>
+        <footer class="d-flex flex-wrap justify-content-between align-items-center border-top" style="border-color:#333 !important;"></footer>
 
-    <div class="container">
-        <footer class="d-flex flex-wrap justify-content-between align-items-center py-2 pt-4">
-            <div class="col-md-6 d-flex align-items-center">
-                <p style="color:#aaa;font-size:0.85rem;">© 2024 Shell Ottawa, Verulam | All Rights Reserved</p>
-            </div>
-            <div class="col-md-6 d-flex align-items-center justify-content-end">
-                <p style="color:#aaa;font-size:0.85rem;">
-                    Developed by <a href="https://afribizconnect.co.za/" target="_blank" style="color:var(--shell-yellow); text-decoration:none; font-weight:700;">Afribiz Connect</a>
-                </p>
-            </div>
-        </footer>
+        <div class="container">
+            <footer class="d-flex flex-wrap justify-content-between align-items-center py-2 pt-4">
+                <div class="col-md-6 d-flex align-items-center">
+                    <p style="color:#aaa;font-size:0.85rem;">© 2024 Shell Ottawa, Verulam | All Rights Reserved</p>
+                </div>
+                <div class="col-md-6 d-flex align-items-center justify-content-end">
+                    <p style="color:#aaa;font-size:0.85rem;">
+                        Developed by <a href="https://afribizconnect.co.za/" target="_blank" style="color:var(--shell-yellow); text-decoration:none; font-weight:700;">Afribiz Connect</a>
+                    </p>
+                </div>
+            </footer>
+        </div>
+    </section>
+
+    <!-- ── ENHANCED WHATSAPP FLOATING BUTTON (consistent with other pages) ── -->
+    <div style="position:fixed; bottom:28px; right:28px; z-index:9999;">
+        <div id="whatsapp-menu" style="display:none; margin-bottom:12px; background:#fff; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,0.15); overflow:hidden; width:200px;">
+            <a href="https://wa.me/27753214777?text=Hi%20Shell%20Ottawa%2C%20I%27d%20like%20to%20book%20a%20car%20wash.%20Please%20share%20available%20slots."
+               target="_blank" style="display:block; padding:12px 16px; color:#333; text-decoration:none; border-bottom:1px solid #eee; font-size:14px;">
+               📅 Book a Wash
+            </a>
+            <a href="https://wa.me/27753214777?text=Hi%20Shell%20Ottawa%2C%20I%20have%20a%20question%20about%20your%20services."
+               target="_blank" style="display:block; padding:12px 16px; color:#333; text-decoration:none; font-size:14px;">
+               💬 General Enquiry
+            </a>
+        </div>
+        <button id="whatsapp-toggle" style="background:#25D366; color:#fff; width:58px; height:58px; border-radius:50%; border:none; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 16px rgba(0,0,0,0.25); cursor:pointer;">
+            <iconify-icon icon="mdi:whatsapp" style="font-size:30px;"></iconify-icon>
+        </button>
     </div>
-</section>
 
     <!-- ── SCRIPTS ── -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 
     <script>
+        // Initialize AOS animations
+        AOS.init({ duration: 800, once: true, offset: 80 });
+
         // Set minimum date to today
         const dateInput = document.getElementById('pref-date');
         const today = new Date().toISOString().split('T')[0];
@@ -556,6 +650,29 @@
                 submitBtn.textContent = 'Confirm booking →';
             }
         });
+
+        // WhatsApp Toggle Functionality
+        const toggleBtn = document.getElementById('whatsapp-toggle');
+        const menu = document.getElementById('whatsapp-menu');
+        
+        if (toggleBtn && menu) {
+            toggleBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+            });
+            
+            document.addEventListener('click', () => { 
+                menu.style.display = 'none'; 
+            });
+            
+            // Close menu when clicking a link
+            const menuLinks = menu.querySelectorAll('a');
+            menuLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    menu.style.display = 'none';
+                });
+            });
+        }
     </script>
 
 </body>
